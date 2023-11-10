@@ -19,6 +19,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<ChatHub>("/chathub");
+app.MapHub<ChatHub>($"/{ChatHub.Name}");
 
 app.Run();

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WpfSignalR.Models;
 
 namespace WpfSignalR.Client.Views;
+
+using Models;
+using Server;
 
 public partial class MainWindow : Window
 {
@@ -51,12 +53,12 @@ public partial class MainWindow : Window
                         .Build();
 
         connection.On<Message>(
-            "ReceiveMessage",
+            ChatHub.ReceiveMessage,
             message => Dispatcher.Invoke(() => messageList.Add(message))
         );
 
         connection.On<int>(
-            "MessageDeleted",
+            ChatHub.MessageDeleted,
             _ => Dispatcher.Invoke(async () => await InitializeMessageList())
         );
 
@@ -86,11 +88,11 @@ public partial class MainWindow : Window
 
         var message = new Message {
             Body = messageContent,
-            User    = user
+            User = user
         };
 
         try {
-            await connection.InvokeAsync("SendMessage", message);
+            await connection.InvokeAsync(nameof(ChatHub.SendMessage), message);
         } catch (Exception ex) {
             ShowError(ex);
         }
@@ -104,7 +106,7 @@ public partial class MainWindow : Window
             return;
 
         try {
-            await connection.InvokeAsync("DeleteMessage", messageId.Value);
+            await connection.InvokeAsync(nameof(ChatHub.DeleteMessage), messageId.Value);
         } catch (Exception ex) {
             ShowError(ex);
         }

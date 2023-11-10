@@ -6,21 +6,25 @@ using Models;
 
 public class ChatHub : Hub
 {
+    public const string Name = "chathub";
+    public const string ReceiveMessage = "ReceiveMessage";
+    public const string MessageDeleted = "MessageDeleted";
+
     MessageContext context = new();
 
     public async Task SendMessage(Message message)
     {
         await AddAsync(message);
-        await Clients.All.SendAsync("ReceiveMessage", message);
-        Console.WriteLine($"SendMessage: {message}");
+        await Clients.All.SendAsync(ReceiveMessage, message);
+        Console.WriteLine($"{nameof(SendMessage)}: {message}");
     }
 
     public async Task DeleteMessage(int messageId)
     {
         var result = await DeleteMessageAsync(messageId);
         if (result) {
-            await Clients.All.SendAsync("MessageDeleted", messageId);
-            Console.WriteLine($"DeleteMessage: {messageId}");
+            await Clients.All.SendAsync(MessageDeleted, messageId);
+            Console.WriteLine($"{nameof(DeleteMessage)}: {messageId}");
         }
     }
 

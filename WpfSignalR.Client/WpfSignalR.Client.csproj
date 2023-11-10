@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WpfSignalR.Models\WpfSignalR.Models.csproj" />
+    <ProjectReference Include="..\WpfSignalR.Server\WpfSignalR.Server.csproj" />
   </ItemGroup>
 
 </Project>
