@@ -1,0 +1,34 @@
+﻿<Window x:Class="WpfSignalR.Client.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="WpfSignalR" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock>Count:</TextBlock>
+            <TextBlock Text="{Binding Count}"></TextBlock>
+        </StackPanel>
+        <ListBox Grid.Row="1"  x:Name="messageListBox" ItemsSource="{Binding}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding User.Name}" FontSize="14" FontWeight="Bold" Margin="2,2,2,2" Foreground="#FF440D0D" />
+                            <TextBlock Text="{Binding CreatedAt}" Margin="2,2,2,2" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding Body}" Margin="2,2,2,2" />
+                        <Button DataContext="{Binding Id}" Click="OnDeleteButtonClick">削除</Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox Grid.Row="2" x:Name="messageTextBox" KeyUp="OnMessageTextBoxKeyUp" />
+    </Grid>
+</Window>
